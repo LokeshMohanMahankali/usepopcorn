@@ -18,7 +18,8 @@ const styleSheet = {
 };
 
 export default function Starrating({ maxrate = 5 }) {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [temprating, setTempRating] = useState(0);
 
   function Handlefunction(rating) {
     setRating(rating);
@@ -31,7 +32,9 @@ export default function Starrating({ maxrate = 5 }) {
           <Star
             key={i}
             onRate={() => Handlefunction(i + 1)}
-            full={rating >= i + 1}
+            full={temprating ? temprating >= i + 1 : rating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
           />
         ))}
       </div>
@@ -40,7 +43,7 @@ export default function Starrating({ maxrate = 5 }) {
   );
 }
 
-function Star({ onRate, full }) {
+function Star({ onRate, full, onHoverIn, onHoverOut }) {
   const starStyle = {
     width: "30px",
     display: "block",
@@ -48,7 +51,13 @@ function Star({ onRate, full }) {
   };
 
   return (
-    <span role="button" style={starStyle} onClick={onRate}>
+    <span
+      role="button"
+      style={starStyle}
+      onClick={onRate}
+      onMouseEnter={onHoverIn}
+      onMouseLeave={onHoverOut}
+    >
       {full ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
