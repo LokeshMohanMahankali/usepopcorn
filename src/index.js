@@ -5,11 +5,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Starrating from "./Starrating";
 
+function Test() {
+  return <Starrating color="blue" />;
+}
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <Starrating maxrate={10} />
+    <Starrating
+      maxrate={10}
+      message={["Terrible", "Bad", "Okay", "Good", "Amazing"]}
+      defaultration={3}
+    />
+    <Starrating maxrate={5} color="red" defaultration={3} />
+    <Test />
   </React.StrictMode>
 );
 

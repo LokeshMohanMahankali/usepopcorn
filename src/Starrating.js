@@ -11,19 +11,29 @@ const containersmallstyle = {
   gap: "8px",
 };
 
-export default function Starrating({ maxrate }) {
-  const [rating, setRating] = useState(0);
+// Startrating function
+export default function Starrating({
+  maxrate,
+  color = "#fcc419",
+  size = 48,
+  message = [],
+  defaultration,
+}) {
+  const [rating, setRating] = useState(defaultration);
   const [temprating, setTempRating] = useState(0);
-  const color = "#fcc419";
+  // const color = "#fcc419";
 
   function Handlefunction(rating) {
     setRating(rating);
   }
+
+  // stylesheet css
   const styleSheet = {
     display: "flex",
     gap: "8px",
     width: "5rem",
     color: `${color}`,
+    fontSize: `${size / 1.5}px`,
   };
 
   return (
@@ -40,12 +50,16 @@ export default function Starrating({ maxrate }) {
           />
         ))}
       </div>
-      <p style={styleSheet}>{rating || ""}</p>
+      <p style={styleSheet}>
+        {message.length === rating
+          ? message[temprating ? temprating - 1 : rating - 1]
+          : temprating || rating || ""}
+      </p>
     </div>
   );
 }
 
-function Star({ onRate, full, onHoverIn, onHoverOut, color }) {
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
     width: "30px",
     display: "block",
