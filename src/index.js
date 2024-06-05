@@ -2,24 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import Appduplicate from "./Appduplicate";
 import reportWebVitals from "./reportWebVitals";
-import Starrating from "./Starrating";
-
-function Test() {
-  return <Starrating color="blue" />;
-}
+import Starrating, { Test } from "./Starrating";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <Starrating
-      maxrate={10}
-      message={["Terrible", "Bad", "Okay", "Good", "Amazing"]}
-      defaultration={3}
-    />
-    <Starrating maxrate={5} color="red" defaultration={3} />
-    <Test />
+    <Appduplicate />
   </React.StrictMode>
 );
 
