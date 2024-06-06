@@ -80,14 +80,30 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isloading, setisLoading] = useState(false);
+  const [error, setError] = useState("");
+  const query = "john";
 
   useEffect(function () {
-    setisLoading(true);
     async function fetchMovies() {
-      const res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s=john`);
-      const data = await res.json();
-      setMovies(data.Search);
-      setisLoading(false);
+      try {
+        setisLoading(true);
+        const res = await fetch(
+          `https://www.omdbapi.com/?apikey=${key}&s=${query}`
+        );
+
+        // When network was gone this error was reflected
+        if (!res.ok)
+          throw new Error(" Somting went wrong with fetching movies");
+
+        const data = await res.json();
+        if (data.Response === "false") throw new Error("Movie not found");
+
+        setMovies(data.Search);
+        setisLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setError(err.message);
+      }
     }
 
     fetchMovies();
@@ -99,7 +115,12 @@ export default function App() {
         <Found movies={movies} />
       </Navbar>
       <Main>
-        <Box>{isloading ? <Loader /> : <Movieslist movies={movies} />}</Box>
+        <Box>
+          {/* {isloading ? <Loader /> : <Movieslist movies={movies} />} */}
+          {isloading && <Loader />}
+          {!isloading && !error && <Movieslist movies={movies} />}
+          {error && <Errormessage message={error} />}
+        </Box>
 
         <Box>
           <Watchedsummary watched={watched} />
@@ -183,8 +204,16 @@ function Box({ children }) {
 
 // List_box -- Movies //////////////////////////////////////////////////////////////
 
+/// Showing message for loading for fatch the data
 function Loader() {
   return <p className="loader">Loading...</p>;
+}
+
+/// showing error message for when user was in offline
+function Errormessage({ message }) {
+  <p className="error">
+    <span>{message}</span>
+  </p>;
 }
 
 function Movieslist({ movies }) {
