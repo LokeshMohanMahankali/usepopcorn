@@ -96,12 +96,12 @@ export default function App() {
           throw new Error(" Somting went wrong with fetching movies");
 
         const data = await res.json();
-        if (data.Response === "false") throw new Error("Movie not found");
+        // When search data was not found it shows this message.
+        if (data.Response === "False") throw new Error("Movie not found");
 
         setMovies(data.Search);
         setisLoading(false);
       } catch (err) {
-        console.log(err.message);
         setError(err.message);
       }
     }
@@ -178,7 +178,7 @@ function Search() {
 function Found({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>{movies.length}</strong> results
+      Found <strong>{movies?.length || ""}</strong> results
     </p>
   );
 }
@@ -290,7 +290,7 @@ function Watchedsummary({ watched }) {
         <p>
           <span>#️⃣</span>
 
-          <span>{watched.length} movies </span>
+          <span>{watched?.length} movies </span>
         </p>
 
         <p>
