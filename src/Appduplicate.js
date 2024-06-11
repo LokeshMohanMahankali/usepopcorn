@@ -93,6 +93,7 @@ export default function App() {
 
   // console.log("During render");
 
+<<<<<<< HEAD
   // useEffect(
   //   function () {
   //     console.log("Ddddd");
@@ -127,6 +128,16 @@ export default function App() {
         } finally {
           setisLoading(false);
         }
+=======
+        const data = await res.json();
+        // When search data was not found it shows this message.
+        if (data.Response === "False") throw new Error("Movie not found");
+
+        setMovies(data.Search);
+        setisLoading(false);
+      } catch (err) {
+        setError(err.message);
+>>>>>>> 1a5e00409d17c248237bffed653b43fd68239819
       }
 
       if (query.length < 3) {
@@ -215,7 +226,11 @@ function Search({ query, setQuery }) {
 function Found({ movies }) {
   return (
     <p className="num-results">
+<<<<<<< HEAD
       Found <strong>{movies?.length}</strong> results
+=======
+      Found <strong>{movies?.length || ""}</strong> results
+>>>>>>> 1a5e00409d17c248237bffed653b43fd68239819
     </p>
   );
 }
@@ -331,7 +346,7 @@ function Watchedsummary({ watched }) {
         <p>
           <span>#️⃣</span>
 
-          <span>{watched.length} movies </span>
+          <span>{watched?.length} movies </span>
         </p>
 
         <p>
