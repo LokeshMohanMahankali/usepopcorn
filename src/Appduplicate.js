@@ -82,7 +82,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isloading, setisLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedid, setSelectedid] = useState(null);
+  const [selectedid, setSelectedid] = useState();
   // useEffect(function () {
   //   console.log("After iniital render");
   // }, []);
@@ -101,7 +101,11 @@ export default function App() {
   // );
 
   function handleclick(id) {
-    setSelectedid(id);
+    setSelectedid((selectedid) => (selectedid === id ? null : id));
+  }
+
+  function handleclose() {
+    setSelectedid(null);
   }
 
   useEffect(
@@ -158,7 +162,7 @@ export default function App() {
 
         <Box>
           {selectedid ? (
-            <Moviedetail selectedid={selectedid} />
+            <Moviedetail selectedid={selectedid} Onclosemovie={handleclose} />
           ) : (
             <>
               <Watchedsummary watched={watched} />
@@ -284,11 +288,18 @@ function Movie({ movie, onSelectMovie }) {
 
 // Watch_Box //////////////////////////////////////////////////////////////////////////////
 
-function Moviedetail({ selectedid }) {
-  return <p className="moviedetial">{selectedid}</p>;
+function Moviedetail({ selectedid, Onclosemovie }) {
+  return (
+    <p className="details">
+      <button className="btn-back" onClick={Onclosemovie}>
+        -
+      </button>
+      {selectedid}
+    </p>
+  );
 }
 
-function WatchBox(params) {
+function WatchBox() {
   const [watched, setWatched] = useState(tempWatchedData);
 
   const [isOpen2, setIsOpen2] = useState(true);
