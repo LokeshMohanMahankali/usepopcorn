@@ -93,7 +93,6 @@ export default function App() {
 
   // console.log("During render");
 
-<<<<<<< HEAD
   // useEffect(
   //   function () {
   //     console.log("Ddddd");
@@ -101,8 +100,8 @@ export default function App() {
   //   [query]
   // );
 
-  function handleclick(params) {
-    setSelectedid();
+  function handleclick(id) {
+    setSelectedid(id);
   }
 
   useEffect(
@@ -128,18 +127,7 @@ export default function App() {
         } finally {
           setisLoading(false);
         }
-=======
-        const data = await res.json();
-        // When search data was not found it shows this message.
-        if (data.Response === "False") throw new Error("Movie not found");
-
-        setMovies(data.Search);
-        setisLoading(false);
-      } catch (err) {
-        setError(err.message);
->>>>>>> 1a5e00409d17c248237bffed653b43fd68239819
       }
-
       if (query.length < 3) {
         setMovies([]);
         setError("");
@@ -163,7 +151,7 @@ export default function App() {
           {/* {isloading ? <Loader /> : <Movieslist movies={movies} />} */}
           {isloading && <Loader />}
           {!isloading && !error && (
-            <Movieslist movies={movies} handleclick={handleclick} />
+            <Movieslist movies={movies} onSelectMovie={handleclick} />
           )}
           {error && <Errormessage message={error} />}
         </Box>
@@ -226,11 +214,7 @@ function Search({ query, setQuery }) {
 function Found({ movies }) {
   return (
     <p className="num-results">
-<<<<<<< HEAD
       Found <strong>{movies?.length}</strong> results
-=======
-      Found <strong>{movies?.length || ""}</strong> results
->>>>>>> 1a5e00409d17c248237bffed653b43fd68239819
     </p>
   );
 }
@@ -268,11 +252,11 @@ function Errormessage({ message }) {
   </p>;
 }
 
-function Movieslist({ movies, handleclick }) {
+function Movieslist({ movies, onSelectMovie }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} handleclick={handleclick} />
+        <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
       ))}
     </ul>
   );
@@ -280,9 +264,9 @@ function Movieslist({ movies, handleclick }) {
 
 // List_box -- movielist -- movie ///////////////////////////////////////////////////////
 
-function Movie({ movie, handleclick }) {
+function Movie({ movie, onSelectMovie }) {
   return (
-    <li key={movie.imdbID} onClick={handleclick}>
+    <li onClick={() => onSelectMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
 
       <h3>{movie.Title}</h3>
