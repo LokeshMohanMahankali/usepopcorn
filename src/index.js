@@ -4,14 +4,21 @@ import "./index.css";
 import App from "./App";
 import Appduplicate from "./Appduplicate";
 import reportWebVitals from "./reportWebVitals";
-import Starrating, { Test } from "./Starrating";
+import Starrating from "./Starrating";
+
+// export function Test() {
+//   return (
+//     <>
+//       <Starrating color="blue" />;
+//     </>
+//   );
+// }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    {/* <Appduplicate /> */}
-    <Starrating />
+    <Appduplicate />
   </React.StrictMode>
 );
 

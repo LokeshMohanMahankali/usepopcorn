@@ -19,9 +19,9 @@ Starrating.propType = {
 
 // Startrating function
 export default function Starrating({
-  maxrate,
+  maxrate = 10,
   color = "#fcc419",
-  size = 48,
+  size = 20,
   message = [],
   defaultrating,
 }) {
@@ -46,15 +46,17 @@ export default function Starrating({
     <div className="container" style={containerstyle}>
       <div style={containersmallstyle}>
         {Array.from({ length: maxrate }, (_, i) => (
-          <Star
-            key={i}
-            color={color}
-            onRat
-            onHoverIn={() => setTempRating(i + 1)}
-            onHoverOut={() => setTempRating(0)}
-            e={() => Handlefunction(i + 1)}
-            full={temprating ? temprating >= i + 1 : rating >= i + 1}
-          />
+          <>
+            <Star
+              key={i}
+              color={color}
+              onRat
+              onHoverIn={() => setTempRating(i + 1)}
+              onHoverOut={() => setTempRating(0)}
+              e={() => Handlefunction(i + 1)}
+              full={temprating ? temprating >= i + 1 : rating >= i + 1}
+            />
+          </>
         ))}
       </div>
       <p style={styleSheet}>
@@ -68,7 +70,7 @@ export default function Starrating({
 
 function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
-    width: "30px",
+    width: "22px",
     display: "block",
     cursor: "pointer",
     color: `${color}`,
