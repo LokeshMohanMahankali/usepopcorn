@@ -19,9 +19,9 @@ Starrating.propType = {
 
 // Startrating function
 export default function Starrating({
-  maxrate = 10,
+  maxrate,
   color = "#fcc419",
-  size = 20,
+  size,
   message = [],
   defaultrating,
 }) {
@@ -49,6 +49,7 @@ export default function Starrating({
           <>
             <Star
               key={i}
+              size={size}
               color={color}
               onRat
               onHoverIn={() => setTempRating(i + 1)}
@@ -70,7 +71,7 @@ export default function Starrating({
 
 function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
-    width: "22px",
+    width: `${size}`,
     display: "block",
     cursor: "pointer",
     color: `${color}`,
