@@ -2,15 +2,6 @@ import React from "react";
 import { useState } from "react";
 import propType from "prop-types";
 
-{
-  /* <Starrating
-      maxrate={10}
-      message={["Terrible", "Bad", "Okay", "Good", "Amazing"]}
-      defaultration={3}
-    />
-<Test /> */
-}
-
 const containerstyle = {
   display: "flex",
   alignItmes: "center",
