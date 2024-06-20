@@ -19,7 +19,11 @@ export default function App() {
   }
 
   function handleclose() {
-    // setSelectedid(null);
+    setSelectedid(null);
+  }
+
+  function handleaddwatched(movie) {
+    setWatched((watched) => [...watched, movie]);
   }
 
   useEffect(
@@ -76,7 +80,11 @@ export default function App() {
 
         <Box>
           {selectedid ? (
-            <Moviedetail selectedid={selectedid} Onclosemovie={handleclose} />
+            <Moviedetail
+              selectedid={selectedid}
+              Onclosemovie={handleclose}
+              Onaddwatchlist={handleaddwatched}
+            />
           ) : (
             <>
               <Watchedsummary watched={watched} />
@@ -202,9 +210,10 @@ function Movie({ movie, onSelectMovie }) {
 
 // Watch_Box //////////////////////////////////////////////////////////////////////////////
 
-function Moviedetail({ selectedid, Onclosemovie }) {
+function Moviedetail({ selectedid, Onclosemovie, Onaddwatchlist }) {
   const [movie, setMovie] = useState({});
   const [isloading, setisLoading] = useState(false);
+  const [userrating, setUserrating] = useState("");
 
   const {
     Title: title,
@@ -219,7 +228,19 @@ function Moviedetail({ selectedid, Onclosemovie }) {
     Genre: genre,
   } = movie;
 
-  console.log(title, year);
+  function handleAdd() {
+    const newWatchmovie = {
+      imdbID: selectedid,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: runtime.split(" ").at(0),
+      userrating,
+      key,
+    };
+    Onaddwatchlist(newWatchmovie);
+  }
 
   useEffect(
     function () {
@@ -255,14 +276,24 @@ function Moviedetail({ selectedid, Onclosemovie }) {
               </p>
               <p>{genre}</p>
               <p>
-                <span></span>
+                <span>⭐️</span>
                 {imdbRating} IMDb rating
               </p>
             </div>
           </header>
           <section>
             <div className="rating">
-              <StarRating maxrate={10} size={"2rem"} />
+              <StarRating
+                maxrate={10}
+                size={"2rem"}
+                onSetrating={setUserrating}
+                key={key}
+              />
+              {userrating > 1 && (
+                <button className="btn-add" onClick={handleAdd}>
+                  + Add to list
+                </button>
+              )}
             </div>
             <p>
               <em>{plot}</em>
@@ -360,9 +391,9 @@ function Watchmovielist({ watched }) {
 function Watchmovie({ movie }) {
   return (
     <li key={movie.imdbID}>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <img src={movie.poster} alt={`${movie.title} poster`} />
 
-      <h3>{movie.Title}</h3>
+      <h3>{movie.title}</h3>
 
       <div>
         <p>

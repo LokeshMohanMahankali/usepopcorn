@@ -23,7 +23,8 @@ export default function Starrating({
   color = "#fcc419",
   size,
   message = [],
-  defaultrating,
+  defaultrating = 0,
+  onSetrating,
 }) {
   const [rating, setRating] = useState(defaultrating);
   const [temprating, setTempRating] = useState(0);
@@ -31,6 +32,7 @@ export default function Starrating({
 
   function Handlefunction(rating) {
     setRating(rating);
+    onSetrating(rating);
   }
 
   // stylesheet css
@@ -51,9 +53,9 @@ export default function Starrating({
               key={i}
               size={size}
               color={color}
-              onRat
+              onRate={() => Handlefunction(i + 1)}
               onHoverIn={() => setTempRating(i + 1)}
-              onHoverOut={() => setTempRating(0)}
+              // onHoverOut={() => setTempRating(0)}
               e={() => Handlefunction(i + 1)}
               full={temprating ? temprating >= i + 1 : rating >= i + 1}
             />
