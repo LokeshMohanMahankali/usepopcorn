@@ -273,10 +273,14 @@ function Moviedetail({ selectedid, Onclosemovie, Onaddwatchlist, watched }) {
     [selectedid]
   );
 
+  /// Changing the title of the movie
   useEffect(
     function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
+      return function () {
+        document.title = "UsePopcorn";
+      };
     },
     [title]
   );
