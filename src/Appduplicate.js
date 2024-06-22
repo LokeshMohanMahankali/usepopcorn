@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StarRating from "./Starrating";
 
 const key = "db7f839d";
@@ -33,12 +33,31 @@ export default function App() {
 
   useEffect(
     function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          handleclose();
+          console.log("CLOSING");
+        }
+      }
+      document.addEventListener("keyword", callback);
+
+      return function () {
+        document.addEventListener("keyword", callback);
+      };
+    },
+    [handleclose]
+  );
+
+  useEffect(
+    function () {
+      const controller = new AbortController();
       async function fetchMovies() {
         try {
           setisLoading(true);
           setError("");
           const res = await fetch(
-            `https://www.omdbapi.com/?apikey=${key}&s=${query}`
+            `https://www.omdbapi.com/?apikey=${key}&s=${query}`,
+            { signal: controller.signal }
           );
 
           // When network was gone this error was reflected
@@ -51,6 +70,9 @@ export default function App() {
           setMovies(data.Search);
         } catch (err) {
           setError(err.message);
+          if (err.name !== "AbortErro") {
+            console.log(err.message);
+          }
         } finally {
           setisLoading(false);
         }
@@ -63,6 +85,10 @@ export default function App() {
       }
 
       fetchMovies();
+
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
