@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import Appduplicate from "./Appduplicate";
 import reportWebVitals from "./reportWebVitals";
 import Starrating from "./Starrating";
 
@@ -17,8 +16,7 @@ import Starrating from "./Starrating";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Appduplicate />
+    <App />
   </React.StrictMode>
 );
 
