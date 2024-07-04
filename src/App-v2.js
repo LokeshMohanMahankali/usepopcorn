@@ -9,10 +9,16 @@ const average = (arr) =>
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  // const [watched, setWatched] = useState([]);
   const [isloading, setisLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedid, setSelectedid] = useState();
+  const [watched, setWatched] = useState(
+    useState(function () {
+      const Storedvaule = localStorage.getItem("watched");
+      return JSON.parse(Storedvaule);
+    })
+  );
 
   function handleclick(id) {
     setSelectedid((selectedid) => (selectedid === id ? null : id));
@@ -30,6 +36,13 @@ export default function App() {
   function handleremovemovie(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   useEffect(
     function () {
@@ -269,6 +282,8 @@ function Moviedetail({ selectedid, Onclosemovie, Onaddwatchlist, watched }) {
     Genre: genre,
   } = movie;
 
+  // const [avgrating, setAvgrating] = useState(0);
+
   function handleAdd() {
     const newWatchmovie = {
       imdbID: selectedid,
@@ -281,6 +296,9 @@ function Moviedetail({ selectedid, Onclosemovie, Onaddwatchlist, watched }) {
       key,
     };
     Onaddwatchlist(newWatchmovie);
+    Onclosemovie();
+    // setAvgrating(Number(imdbRating));
+    // setAvgrating(Number((avgrating) => (avgrating + userrating) / 2));
   }
 
   useEffect(
@@ -328,12 +346,14 @@ function Moviedetail({ selectedid, Onclosemovie, Onaddwatchlist, watched }) {
                 {release} &bull; {runtime}
               </p>
               <p>{genre}</p>
+
               <p>
                 <span>⭐️</span>
                 {imdbRating} IMDb rating
               </p>
             </div>
           </header>
+          {/* <p>{avgrating}</p> */}
           <section>
             {/*  Star Ratting */}
             <div className="rating">
