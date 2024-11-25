@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StarRating from "./Starrating";
 
 const key = "db7f839d";
