@@ -11,6 +11,7 @@ import Watchedsummary from "./Components/WatchBox/Watchedsummary";
 import Watchmovielist from "./Components/WatchBox/Watchmovielist";
 import Errormessage from "./utils/Errormessage";
 import Main from "./utils/Main";
+import { useLocalStorage } from "./UseLocalStorage";
 
 const key = "db7f839d";
 
@@ -20,7 +21,7 @@ const average = (arr) =>
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useLocalStorage([], "watched");
   const [isloading, setisLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedid, setSelectedid] = useState();
@@ -74,10 +75,8 @@ export default function App() {
           // When network was gone this error was reflected
           if (!res.ok)
             throw new Error(" Somting went wrong with fetching movies");
-
           const data = await res.json();
           if (data.Response === "false") throw new Error("Movie not found");
-
           setMovies(data.Search);
         } catch (err) {
           setError(err.message);
